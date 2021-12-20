@@ -5,6 +5,12 @@ TextureImporter:
   - first:
       213: 4674224726878878948
     second: apple_sprite
+  - first:
+      213: -266883865066856737
+    second: banana_sprite
+  - first:
+      213: -1122222750625558779
+    second: candy_sprite
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -98,7 +104,7 @@ TextureImporter:
         width: 15
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -106,6 +112,48 @@ TextureImporter:
       bones: []
       spriteID: 4ec76fdbf9e2ed040800000000000000
       internalID: 4674224726878878948
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: banana_sprite
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 194
+        width: 16
+        height: 13
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fde186ae986db4cf0800000000000000
+      internalID: -266883865066856737
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: candy_sprite
+      rect:
+        serializedVersion: 2
+        x: 112
+        y: 258
+        width: 16
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 50f0a16aa501d60f0800000000000000
+      internalID: -1122222750625558779
       vertices: []
       indices: 
       edges: []
