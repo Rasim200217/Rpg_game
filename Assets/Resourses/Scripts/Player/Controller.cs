@@ -43,6 +43,7 @@ public class Controller : MonoBehaviour
      void Update()
     {
         InputManager();
+        Dash();
     }
 
      void FixedUpdate()
@@ -59,11 +60,31 @@ public class Controller : MonoBehaviour
         else if (_cursor.x > transform.position.x && !_facingRight) Flip();
     }
 
+    private void Dash()
+    {
+        if(Input.GetKeyDown(KeyCode.Space) && !_playerIsStand && !isDashed)
+        {
+            isDashed = true;
+            _dashTime = dashCountDown;
+            _rigidbody2D.AddForce(new Vector2(xPlus * dashForse, yPlus * dashForse), ForceMode2D.Impulse);
+        }
+
+        if (_dashTime > 0) _dashTime -= Time.deltaTime;
+        else if(isDashed)
+        {
+            _dashTime = 0;
+            isDashed = false;
+            _rigidbody2D.velocity = Vector2.zero;
+        }
+    }
 
     void InputManager()
     {
         x = Input.GetAxis("Horizontal");
         y = Input.GetAxis("Vertical");
+
+        xPlus = Input.GetAxis("Horizontal+");
+        yPlus = Input.GetAxis("Vertical+");
 
         if (x == 0 && y == 0) _playerIsStand = true;
         else _playerIsStand = false;

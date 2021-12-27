@@ -4,15 +4,26 @@ using UnityEngine;
 
 public class ItemSettings : MonoBehaviour
 {
-    // Start is called before the first frame update
+    public Item thisItem;
+    public int count = 1;
+   
     void Start()
     {
-        
+        gameObject.name = thisItem.itemName;
+        GetComponent<SpriteRenderer>().sprite = thisItem.sprite;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        
+        if (collision.tag == "Player") {
+            collision.GetComponent<Interactive>().item = this;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.tag == "Player") {
+            collision.GetComponent<Interactive>().item = null;
+        }
     }
 }
