@@ -31,12 +31,12 @@ public class MainPanel : MonoBehaviour
 
     private void OnEnable()
     {
-        if (_inventoryUI) _inventoryUI.RefreshAll();
+        if (_inventoryUI) _inventoryUI.Cleaner();
     }
 
     private void OnDisable()
     {
-        
+        if (_inventoryUI) _inventoryUI.Cleaner();
     }
 
     public void Button(int index)

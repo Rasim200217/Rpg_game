@@ -12,7 +12,7 @@ public class CanvasScript : MonoBehaviour
 
 
     
-    void Awake()
+    void Start()
     {
         canvas = this;
         mainPanelIsOpen = false;

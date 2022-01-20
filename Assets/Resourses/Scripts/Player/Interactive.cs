@@ -48,6 +48,7 @@ public class Interactive : MonoBehaviour
 
     public void TakeGold()
     {
-
+        inventory.AddGold(item.count * item.thisItem.cost);
+        Destroy(item.gameObject);
     }
 }

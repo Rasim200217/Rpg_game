@@ -8,7 +8,7 @@ public class Inventory : MonoBehaviour
     public Item[] equipment;
 
     public int[] counts;
-    public int[] money;
+    public int money;
 
     public static Inventory inventory;
 
@@ -43,5 +43,46 @@ public class Inventory : MonoBehaviour
             }
         }
         return false;
+    }
+
+    public void AddGold(int count)
+    {
+        Debug.Log("Вы подняли золото в размере" + count + ".");
+        money += count;
+    }
+
+    public bool Use(int id)
+    {
+        if (!items[id]) return false;
+
+        switch (items[id].myType)
+        {
+            case Item.ItemsTypes.item:
+                return UseItem(id);
+            default: SetEquip(items[id].myType, id);
+                return true;
+        }
+    }
+
+    private bool UseItem(int id)
+    {
+        if (!items[id].isUseful) return false;
+
+        if(counts[id] > 1)
+        {
+            counts[id]--;
+        }
+        else
+        {
+            counts[id] = 0;
+            items[id] = null;
+        }
+        return true;
+    }
+
+    private void SetEquip(Item.ItemsTypes equipType, int id)
+    {
+        if (equipment[(int)equipType] == items[id]) equipment[(int)equipType] = null;
+        else equipment[(int)equipType] = items[id];
     }
 }

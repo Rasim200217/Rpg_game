@@ -36,37 +36,141 @@ public class InventoryUI : MonoBehaviour
     public Color myColor;
     public Color cursorColor;
     public Color selectColor;
-    public Color equipColor;
+    public Color[] equipColor;
 
     private GameObject _itemPref;
 
    public void Access()
    {
         _cellPanel = transform.GetChild(0);
+        _infoPanel = transform.GetChild(1);
+        _equipPanel = transform.GetChild(2);
 
+
+        //cursor
+
+
+        //inventory
         cells = new CellScript[25];
         for (int i = 0; i < cells.Length; i++)
         {
             cells[i] = _cellPanel.GetChild(i).GetComponent<CellScript>().GetLinkSetting(i, this);
         }
-   }
+
+        // info
+        _infoImage = _infoPanel.GetChild(0).GetChild(0).GetComponent<Image>();
+        _infoName = _infoPanel.GetChild(1).GetComponent<Text>();
+        _infoDescription = _infoPanel.GetChild(2).GetComponent<Text>();
+        _infoEffect = _infoPanel.GetChild(3).GetComponent<Text>();
+        _infoCost = _infoPanel.GetChild(4).GetComponent<Text>();
+
+
+        //equip
+    }
 
     void Update()
     {
+        if(cursorCell)
+        {
+            if(Input.GetMouseButtonDown(0)) // нажалите лкм
+            {
+                SelectCellSwitch();
+            }
+            if (Input.GetMouseButtonDown(1)) // нажалите пкм
+            {
+                if (Inventory.inventory.Use(cursorCell.cellId)) RefreshAll();
+            }
+        }
+    }
 
+    private void SelectCellSwitch()
+    {
+        if (!selectedCell) selectedCell = cursorCell;
+        else
+        {
+            if(selectedCell == cursorCell)
+            {
+                selectedCell = null;
+            }
+            else
+            {
+                selectedCell = cursorCell;
+            }
+        }
+        RefreshAll();
     }
 
     public void CursorCellSwitch(CellScript newCell)
     {
         if (!cursorCell) cursorCell = newCell;
         else cursorCell = null;
+
+        RefreshAll();
     }
 
     public void RefreshAll()
     {
         for (int i = 0; i < cells.Length; i++)
         {
+            cells[i].isEquipt = false;
+
+            if(Inventory.inventory.items[i])
+            {
+                int index = (int)Inventory.inventory.items[i].myType;
+
+                if(Inventory.inventory.equipment.Length > index) // Отрегулировать при добавлении новых типов предметов!
+                {
+                    if (Inventory.inventory.equipment[index] == Inventory.inventory.items[i]) cells[i].isEquipt = true;
+                }
+            }
+            if (cells[i].isEquipt) cells[i].SetColor(equipColor[(int)Inventory.inventory.items[i].myType]);
+            else cells[i].SetColor(myColor);
+        }
+
+
+        if (cursorCell && !cursorCell.isEquipt) cursorCell.SetColor(cursorColor);
+
+        if (selectedCell)
+        {
+            if (!selectedCell.isEquipt) selectedCell.SetColor(selectColor);
+            InfoChange(Inventory.inventory.items[selectedCell.cellId]);
+        }
+        else InfoChange();
+
+        for (int i = 0; i < cells.Length; i++)
+        {
             cells[i].Refresh();
         }
+    }
+
+    private void InfoChange(Item itemInfo = null)
+    {
+        if(itemInfo)
+        {
+            _infoImage.enabled = true;
+            _infoImage.sprite = itemInfo.sprite;
+
+            _infoName.text = itemInfo.itemName;
+            _infoDescription.text = itemInfo.description;
+            _infoEffect.text = itemInfo.effect;
+            _infoCost.text = "Цена: " + itemInfo.cost;
+        }
+        else
+        {
+            _infoImage.enabled = false;
+
+            _infoName.text = "";
+            _infoDescription.text = "";
+            _infoEffect.text = "";
+            _infoCost.text = "";
+        }
+    }
+
+
+    public void Cleaner()
+    {
+        cursorCell = null;
+        selectedCell = null;
+        RefreshAll();
     }
 }

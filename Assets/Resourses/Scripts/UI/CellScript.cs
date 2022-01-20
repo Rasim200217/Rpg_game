@@ -19,6 +19,8 @@ public class CellScript : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     public void Refresh()
     {
+        if (!Inventory.inventory) return;
+
         if(Inventory.inventory.items[cellId])
         {
             isFree = false;
@@ -44,6 +46,11 @@ public class CellScript : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     public void OnPointerExit(PointerEventData eventData)
     {
         if (ui) ui.CursorCellSwitch(this);
+    }
+
+    public void SetColor(Color newColor)
+    {
+        _myImage.color = newColor;
     }
 
     public CellScript GetLinkSetting(int newId, InventoryUI newUI)
