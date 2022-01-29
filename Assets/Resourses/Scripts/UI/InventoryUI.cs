@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
 
-public class InventoryUI : MonoBehaviour
+public class InventoryUI : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
 {
     public CellScript[] cells; // ссылки на ячейки инвенторя
     private Transform _cellPanel; // ссылка на главную панель ячеек (для сокращение ссылок)
@@ -30,6 +30,7 @@ public class InventoryUI : MonoBehaviour
 
     // EquipPanel Settings
     private Transform _equipPanel;
+    private EquipCellScript[] equipCells;
 
     // Colors
     [Header("Inventory Colors")]
@@ -48,6 +49,12 @@ public class InventoryUI : MonoBehaviour
 
 
         //cursor
+        if (cursor)
+        {
+            _cursorImage = cursor.GetComponent<Image>();
+            _cursorText = cursor.GetChild(0).GetComponent<Text>();
+        }
+        else Debug.Log("Нет ссылки на курсор");
 
 
         //inventory
@@ -66,7 +73,12 @@ public class InventoryUI : MonoBehaviour
 
 
         //equip
-    }
+        equipCells = new EquipCellScript[3];
+        for (int i = 0; i < equipCells.Length; i++)
+        {
+            equipCells[i] = _equipPanel.GetChild(i).GetComponent<EquipCellScript>();
+        }
+   }
 
     void Update()
     {
@@ -82,6 +94,30 @@ public class InventoryUI : MonoBehaviour
             }
         }
     }
+    
+    public void OnBeginDrag(PointerEventData eventData)
+    {
+        if(!cursorCell) return;
+        if(!Inventory.inventory.items[cursorCell.cellId]) return;
+
+        previosCell = cursorCell;
+        selectedCell = cursorCell;
+        RefreshAll();
+        
+        cursor.gameObject.SetActive(true);
+        _cursorImage.sprite = Inventory.inventory.items[previosCell.cellId].sprite;
+        _cursorText.text = Inventory.inventory.counts[previosCell.cellId].ToString();
+    }
+    public void OnDrag(PointerEventData eventData)
+    {
+        cursor.position = Input.mousePosition;
+    }
+
+    public void OnEndDrag(PointerEventData eventData)
+    {
+        
+    }
+    
 
     private void SelectCellSwitch()
     {
@@ -123,6 +159,9 @@ public class InventoryUI : MonoBehaviour
                     if (Inventory.inventory.equipment[index] == Inventory.inventory.items[i]) cells[i].isEquipt = true;
                 }
             }
+            
+            cells[i].Refresh();
+            
             if (cells[i].isEquipt) cells[i].SetColor(equipColor[(int)Inventory.inventory.items[i].myType]);
             else cells[i].SetColor(myColor);
         }
@@ -136,10 +175,10 @@ public class InventoryUI : MonoBehaviour
             InfoChange(Inventory.inventory.items[selectedCell.cellId]);
         }
         else InfoChange();
-
-        for (int i = 0; i < cells.Length; i++)
+        
+        for (int i = 0; i < equipCells.Length; i++)
         {
-            cells[i].Refresh();
+            equipCells[i].Refresh();
         }
     }
 
@@ -173,4 +212,6 @@ public class InventoryUI : MonoBehaviour
         selectedCell = null;
         RefreshAll();
     }
+
+    
 }
