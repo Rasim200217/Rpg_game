@@ -85,4 +85,25 @@ public class Inventory : MonoBehaviour
         if (equipment[(int)equipType] == items[id]) equipment[(int)equipType] = null;
         else equipment[(int)equipType] = items[id];
     }
+
+    public void MoveItem(int oldId, int newId)
+    {
+        items[newId] = items[oldId];
+        counts[newId] = counts[oldId];
+
+        items[oldId] = null;
+        counts[oldId] = 0;
+    }
+
+    public void SwapItem(int oldId, int newId)
+    {
+        Item tempItem = items[newId];
+        int tempCount = counts[newId];
+
+        items[newId] = items[oldId];
+        counts[newId] = counts[oldId];
+
+        items[newId] = tempItem;
+        counts[newId] = tempCount;
+    }
 }

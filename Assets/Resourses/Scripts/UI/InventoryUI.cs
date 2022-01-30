@@ -39,7 +39,7 @@ public class InventoryUI : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
     public Color selectColor;
     public Color[] equipColor;
 
-    private GameObject _itemPref;
+    GameObject _itemPref;
 
    public void Access()
    {
@@ -78,6 +78,8 @@ public class InventoryUI : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
         {
             equipCells[i] = _equipPanel.GetChild(i).GetComponent<EquipCellScript>();
         }
+
+        _itemPref = Resources.Load<GameObject>("Prefabs/Other/Item");
    }
 
     void Update()
@@ -115,7 +117,60 @@ public class InventoryUI : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        
+        if (cursorCell == previosCell)
+        {
+
+            ClearCursor();
+            return;
+        }
+        if (!cursorCell && previosCell)
+        {
+            DropItem();
+            ClearCursor();
+        }
+        if (cursorCell && previosCell)
+        {
+            if (cursorCell.isFree)
+            {
+                Inventory.inventory.MoveItem(previosCell.cellId, cursorCell.cellId);
+            }
+            else Inventory.inventory.SwapItem(previosCell.cellId, cursorCell.cellId);
+
+            ClearCursor();
+        }
+    }
+
+    public void DropItem()
+    {
+        int index = (int)Inventory.inventory.items[previosCell.cellId].myType;
+
+        if(Inventory.inventory.equipment.Length > index)
+        {
+            if(Inventory.inventory.equipment[index] == Inventory.inventory.items[previosCell.cellId])
+            {
+                Inventory.inventory.equipment[index] = null;
+                previosCell.isEquipt = false;
+            }
+        }
+
+        Vector3 tempVec = Controller.con.transform.position + Random.insideUnitSphere * 1.5f;
+        tempVec.z = -0.1f;
+
+        ItemSettings temp = Instantiate(_itemPref, tempVec, Quaternion.identity).GetComponent<ItemSettings>();
+
+        temp.thisItem = Inventory.inventory.items[previosCell.cellId];
+        temp.count = Inventory.inventory.counts[previosCell.cellId];
+
+        Inventory.inventory.items[previosCell.cellId] = null;
+        Inventory.inventory.counts[previosCell.cellId] = 0;
+    }
+
+    private void ClearCursor()
+    {
+        cursor.gameObject.SetActive(false);
+        previosCell = null;
+        if(cursorCell) selectedCell = cursorCell;
+        RefreshAll();
     }
     
 
@@ -208,6 +263,7 @@ public class InventoryUI : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
 
     public void Cleaner()
     {
+        ClearCursor();
         cursorCell = null;
         selectedCell = null;
         RefreshAll();
