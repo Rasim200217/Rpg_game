@@ -28,8 +28,8 @@ MonoBehaviour:
   pulse: 0
   speed: 7
   weight: 4
-  lenght: 0
-  offset: 0
+  lenght: 0.2
+  offset: 0.4716927
   spriteForBowState: {fileID: 0}
   myArrow: {fileID: 0}
   protection: 0

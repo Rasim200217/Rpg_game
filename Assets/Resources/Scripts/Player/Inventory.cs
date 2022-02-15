@@ -10,6 +10,8 @@ public class Inventory : MonoBehaviour
     public int[] counts;
     public int money;
 
+    private int _arrowId;
+
     public static Inventory inventory;
 
     private void Awake() //место в инвентаре
@@ -84,6 +86,36 @@ public class Inventory : MonoBehaviour
     {
         if (equipment[(int)equipType] == items[id]) equipment[(int)equipType] = null;
         else equipment[(int)equipType] = items[id];
+    }
+
+
+    public bool ArrowChecked(int id)
+    {
+        for (int i = 0; i < items.Length; i++)
+        {
+            if (items[i])
+            {
+                if (items[i].id == id)
+                {
+                    _arrowId = i;
+                    return true;
+                }
+            }
+        }
+        _arrowId = 0;
+        return false;
+    }
+
+    public Sprite GetArrowSprite()
+    {
+        return items[_arrowId].sprite;
+    }
+
+    public void UseArrow()
+    {
+        counts[_arrowId]--;
+
+        if (counts[_arrowId] <= 0) items[_arrowId] = null;
     }
 
     public void MoveItem(int oldId, int newId)
