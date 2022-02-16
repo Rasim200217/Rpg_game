@@ -3921,8 +3921,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 250, y: 100}
-  m_SizeDelta: {x: 300, y: 100}
+  m_AnchoredPosition: {x: 165, y: 44}
+  m_SizeDelta: {x: 140, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &688149161
 MonoBehaviour:
@@ -4983,8 +4983,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -22.58, y: 0}
-  m_SizeDelta: {x: 210.17282, y: 34}
+  m_AnchoredPosition: {x: -10.498, y: 0}
+  m_SizeDelta: {x: 98.153564, y: 17.4}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &966473722
 MonoBehaviour:
@@ -5036,6 +5036,7 @@ GameObject:
   - component: {fileID: 1004153743}
   - component: {fileID: 1004153742}
   - component: {fileID: 1004153741}
+  - component: {fileID: 1004153746}
   - component: {fileID: 1004153740}
   - component: {fileID: 1004153739}
   m_Layer: 0
@@ -5198,6 +5199,20 @@ MonoBehaviour:
   lvlHealth: 10
   lvlMana: 5
   lvlStamina: 2
+--- !u!114 &1004153746
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1004153738}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b5aec690541baf45863aac3b4758e2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Healthbar: {fileID: 966473722}
+  fill: 0
 --- !u!1 &1018886317
 GameObject:
   m_ObjectHideFlags: 0
