@@ -76,10 +76,10 @@ public class PlayerStats : MonoBehaviour
         Constitution = StartConstitution;
         Intelligence = StartIntelligence;
 
+        Manager();
+
         Exp = 0;
         ExpPoints = StartExpPoints;
-
-        Manager();
 
         PlayerHealth = PlayerMaxHealth;
         PlayerMana = PlayerMaxMana;
@@ -152,6 +152,26 @@ public class PlayerStats : MonoBehaviour
         if(PlayerHealth <= 0)
         {
             PlayerHealth = 0;
+        }
+    }
+
+    public void PlayerManaDamage(int damage)
+    {
+        PlayerMana -= damage;
+
+        if (PlayerMana <= 0)
+        {
+            PlayerMana = 0;
+        }
+    }
+
+    public void PlayerStaminaDamage(int damage)
+    {
+        PlayerStamina -= damage;
+
+        if (PlayerStamina <= 0)
+        {
+            PlayerStamina = 0;
         }
     }
 

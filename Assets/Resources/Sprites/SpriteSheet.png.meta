@@ -14,6 +14,9 @@ TextureImporter:
   - first:
       213: 659797372610145418
     second: SmallKnife_sprite
+  - first:
+      213: -689520407193891599
+    second: enemy1_sprite
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -178,6 +181,27 @@ TextureImporter:
       bones: []
       spriteID: a8ce922f632182900800000000000000
       internalID: 659797372610145418
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: enemy1_sprite
+      rect:
+        serializedVersion: 2
+        x: 19
+        y: 96
+        width: 10
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1fc43d7c7d45e66f0800000000000000
+      internalID: -689520407193891599
       vertices: []
       indices: 
       edges: []
