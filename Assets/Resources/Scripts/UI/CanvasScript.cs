@@ -51,7 +51,7 @@ public class CanvasScript : MonoBehaviour
     private void FixedUpdate()
     {
         DataBars();
-        SizeBars();
+        /*SizeBars();*/
 
         if (Input.GetKey(KeyCode.Alpha1)) PlayerStats.stats.PlayerDamage(1);
         if (Input.GetKey(KeyCode.Alpha2)) PlayerStats.stats.PlayerManaDamage(1);
@@ -65,12 +65,12 @@ public class CanvasScript : MonoBehaviour
         sp.fillAmount = (PlayerStats.PlayerStamina / PlayerStats.PlayerMaxStamina);
     }
 
-    private void SizeBars()
+    /*private void SizeBars()
     {
         hpUI.sizeDelta = new Vector2(80 + PlayerStats.PlayerMaxHealth * 2, hpUI.sizeDelta.y);
         mnUI.sizeDelta = new Vector2(80 + PlayerStats.PlayerMaxMana * 2, mnUI.sizeDelta.y);
         spUI.sizeDelta = new Vector2(80 + PlayerStats.PlayerMaxStamina * 2, spUI.sizeDelta.y);
-    }
+    }*/
 
 
     private void Update()

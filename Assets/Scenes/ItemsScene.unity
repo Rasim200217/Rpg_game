@@ -5486,7 +5486,7 @@ MonoBehaviour:
   timeManaRegen: 0.1
   lvlHealth: 5
   lvlMana: 5
-  lvlStamina: 2
+  lvlStamina: 5
 --- !u!114 &1004153746
 MonoBehaviour:
   m_ObjectHideFlags: 0
