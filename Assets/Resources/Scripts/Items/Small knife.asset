@@ -24,11 +24,11 @@ MonoBehaviour:
   isArrow: 0
   arrowId: 0
   damage: 7
-  pulse: 0
+  pulse: 500
   speed: 5
   weight: 2
-  lenght: 0
-  offset: 0
+  lenght: 1
+  offset: 0.82
   spriteForBowState: {fileID: 0}
   myArrow: {fileID: 0}
   protection: 0

@@ -37,6 +37,7 @@ public class ArrowScript : MonoBehaviour
             if(collision.transform.tag == "Enemy")
             {
                 transform.SetParent(collision.transform);
+                collision.transform.GetComponent<EnemyCanDie>().ArrowHit(transform.position);
             }
         }
     }

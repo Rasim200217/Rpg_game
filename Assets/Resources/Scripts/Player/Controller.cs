@@ -95,18 +95,20 @@ public class Controller : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0) && Inventory.inventory.equipment[0])
         {
-            // проверка на стамину.
+            if (PlayerStats.StaminaLose(Inventory.inventory.equipment[0].weight, PlayerStats.stats.strWeight,
+                PlayerStats.Strenght))
+            {
+                mySwordRender.sprite = Inventory.inventory.equipment[0].sprite;
+                mySwordRender.size = new Vector2(0.4f, Inventory.inventory.equipment[0].lenght);
+                mySwordRender.size = new Vector2(0f, Inventory.inventory.equipment[0].offset);
 
-            mySwordRender.sprite = Inventory.inventory.equipment[0].sprite;
-            mySwordRender.size = new Vector2(0.4f, Inventory.inventory.equipment[0].lenght);
-            mySwordRender.size = new Vector2(0f, Inventory.inventory.equipment[0].offset);
+                float speed = Inventory.inventory.equipment[0].speed; // +буст от ловкости
 
-            float speed = Inventory.inventory.equipment[0].speed; // +буст от ловкости
+                mySwordAnimator.speed = speed;
 
-            mySwordAnimator.speed = speed;
-
-            _isMelee = true;
-            mySword.SetActive(true);
+                _isMelee = true;
+                mySword.SetActive(true);
+            }
         }
     }
 

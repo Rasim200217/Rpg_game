@@ -1317,7 +1317,7 @@ GameObject:
   - component: {fileID: 230480922}
   m_Layer: 0
   m_Name: NewWeapon
-  m_TagString: Untagged
+  m_TagString: Sword
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2555,9 +2555,9 @@ RectTransform:
   m_Father: {fileID: 2006095645}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 268.00006, y: 44}
+  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMax: {x: 0.5, y: 0}
+  m_AnchoredPosition: {x: -531.99994, y: 44}
   m_SizeDelta: {x: 140, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &462578615
@@ -4097,7 +4097,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 711476356}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 4.33, z: 0}
+  m_LocalPosition: {x: -0.29, y: 4.33, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1852808804}
@@ -4153,6 +4153,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01698fe32b1d6844585611fd9d0419d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hitColor: {r: 0.754717, g: 0.1459594, b: 0.1459594, a: 1}
+  HitColorChangeTime: 0.3
 --- !u!114 &711476361
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4167,16 +4169,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myType: 0
   speed: 3
-  forceSpeed: 7
-  forceCountdown: 4
+  forceSpeed: 10
+  forceCountdown: 3
   patrolSpeed: 3
   chasingRadius: 3.09
   attackRadius: 0
   retreatRadius: 0
-  maxX: 5
-  minX: 5
-  maxY: 5
-  minY: 5
+  maxX: 3
+  minX: 3
+  maxY: 3
+  minY: 3
   fireRite: 0
   bulletPref: {fileID: 0}
   moveRight: 0
@@ -4194,10 +4196,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be1c5f8026192d341a13c4d139ae6a28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyHealth: 50
+  enemyHealth: 30
   enemyDamage: 5
   hitPuls: 30
   exp: 50
+  loots:
+  - item: {fileID: 11400000, guid: 1ce60d89f987d024a9846ebda746c367, type: 2}
+    count: 1
+    chance: 50
+  - item: {fileID: 11400000, guid: 80b21c3cd6294934882355d6eab005a7, type: 2}
+    count: 1
+    chance: 25
 --- !u!1 &724886131
 GameObject:
   m_ObjectHideFlags: 0
@@ -4621,8 +4630,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -10.498001, y: 0}
-  m_SizeDelta: {x: -41.846436, y: -12.6}
+  m_AnchoredPosition: {x: -10.520996, y: -0}
+  m_SizeDelta: {x: -41.998825, y: -13.095972}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &759940951
 MonoBehaviour:
@@ -5262,8 +5271,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -10.498001, y: 0}
-  m_SizeDelta: {x: -41.846436, y: -12.6}
+  m_AnchoredPosition: {x: -10, y: 0}
+  m_SizeDelta: {x: -40, y: -12}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &966473722
 MonoBehaviour:
@@ -5315,6 +5324,7 @@ GameObject:
   - component: {fileID: 1004153743}
   - component: {fileID: 1004153742}
   - component: {fileID: 1004153741}
+  - component: {fileID: 1004153746}
   - component: {fileID: 1004153740}
   - component: {fileID: 1004153739}
   m_Layer: 0
@@ -5474,9 +5484,22 @@ MonoBehaviour:
   intMag: 2
   requireManaRegen: 5
   timeManaRegen: 0.1
-  lvlHealth: 10
+  lvlHealth: 5
   lvlMana: 5
   lvlStamina: 2
+--- !u!114 &1004153746
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1004153738}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd94b6d6adf87f6478c4da5ca2ef5685, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _hitColor: {r: 0.7169812, g: 0.07778571, b: 0.07778571, a: 1}
 --- !u!1 &1018886317
 GameObject:
   m_ObjectHideFlags: 0
@@ -5894,7 +5917,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1101894981}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalPosition: {x: 0, y: 2.45, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -6051,7 +6074,7 @@ GameObject:
   - component: {fileID: 1127372231}
   m_Layer: 0
   m_Name: Cube
-  m_TagString: Enemy
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6137,7 +6160,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1127372230}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 8.47, y: -1.53, z: 0}
+  m_LocalPosition: {x: 6.25, y: -0.06, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}

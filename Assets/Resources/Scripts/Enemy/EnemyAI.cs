@@ -45,7 +45,7 @@ public class EnemyAI : MonoBehaviour
     private float _mySpeed; // настоящая скорость противника
 
     private Vector3 _startPos; // стартовая позиция противника
-    private Vector3 movePos; // точка движения
+    private Vector3 _movePos; // точка движения
     
     private bool _gameStarted; // игра начиналось (Дебаг)
 
@@ -60,7 +60,7 @@ public class EnemyAI : MonoBehaviour
         _target = GameObject.FindGameObjectWithTag("Player").transform;
         _mySpeed = speed;
 
-        movePos = new Vector2(_startPos.x + Random.Range(-minX, maxX), _startPos.y + Random.Range(-minY, maxY));
+        MovePosCreator();
 
     }
 
@@ -86,19 +86,66 @@ public class EnemyAI : MonoBehaviour
 
     private void Chasing()
     {
-       transform.position = Vector2.MoveTowards(transform.position, _target.position, speed * Time.deltaTime);
+        Flip(_target.position);
+
+        Vector2 temp = Vector2.MoveTowards(transform.position, _target.position, _mySpeed * Time.deltaTime);
+        _rigidbody.MovePosition(temp);
+
+        if (!_isForced) StartCoroutine(Force());
+    }
+
+    private IEnumerator Force()
+    {
+        _isForced = true;
+        _mySpeed = 0.5f;
+        yield return new WaitForSeconds(0.5f);
+        _mySpeed = forceSpeed;
+        yield return new WaitForSeconds(0.2f);
+        _rigidbody.AddForce(transform.forward * _mySpeed, ForceMode2D.Impulse);
+        _mySpeed = speed;
+        yield return new WaitForSeconds(forceCountdown);
+        _isForced = false;
     }
 
     private void Patrol()
     {
-        // Flip
+        Flip(_movePos);
 
-        Vector2 temp = Vector2.MoveTowards(transform.position, movePos, patrolSpeed * Time.deltaTime);
+        Vector2 temp = Vector2.MoveTowards(transform.position, _movePos, patrolSpeed * Time.deltaTime);
         _rigidbody.MovePosition(temp);
 
-        if (Vector2.Distance(transform.position, movePos) <= patrolSpeed * Time.deltaTime)
+        if (Vector2.Distance(transform.position, _movePos) <= patrolSpeed * Time.deltaTime)
         {
-            movePos = new Vector2(_startPos.x + Random.Range(-minX, maxX), _startPos.y + Random.Range(-minY, maxY));
+            MovePosCreator();
+        }
+    }
+
+    private void MovePosCreator()
+    {
+        _movePos = new Vector2(_startPos.x + Random.Range(-minX, maxX), _startPos.y + Random.Range(-minY, maxY));
+
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(_movePos, 0.3f);
+
+        foreach (Collider2D temp in colliders)
+        {
+            if(temp.tag.Contains("Wall"))
+            {
+                _movePos = transform.position;
+            }
+        }
+    }
+
+    private void Flip(Vector3 flipTarget)
+    {
+        if (transform.position.x > flipTarget.x && _facingRight) Flipper();
+        if (transform.position.x < flipTarget.x && !_facingRight) Flipper();
+
+        void Flipper()
+        {
+            _facingRight = !_facingRight;
+            Vector3 temp = _mySprite.transform.localScale;
+            temp.x *= -1;
+            _mySprite.transform.localScale = temp;
         }
     }
 
@@ -122,9 +169,9 @@ public class EnemyAI : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, chasingRadius);
 
         Gizmos.color = Color.cyan;
-        Gizmos.DrawWireSphere(movePos, 0.15f);
+        Gizmos.DrawWireSphere(_movePos, 0.15f);
     }
 
 
- 
+
 }

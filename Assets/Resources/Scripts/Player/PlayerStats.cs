@@ -145,6 +145,12 @@ public class PlayerStats : MonoBehaviour
         }
     }
 
+    public void AddExp(int addExp)
+    {
+        Exp += addExp;
+        CheckLevel();
+    }
+
     public void PlayerDamage(int damage)
     {
         PlayerHealth -= damage;
@@ -186,5 +192,19 @@ public class PlayerStats : MonoBehaviour
     private void StaminaRegen()
     {
 
+    }
+    
+
+    public static bool StaminaLose(float loseCount, float modificator, int parametr)
+    {
+        loseCount -= modificator * parametr;
+        if (loseCount <= 0) loseCount = 1f;
+
+        if (PlayerStamina >= loseCount)
+        {
+            PlayerStamina -= loseCount;
+            return true;
+        }
+        else return false;
     }
 }
