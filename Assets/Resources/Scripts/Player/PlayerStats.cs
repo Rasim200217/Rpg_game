@@ -62,6 +62,13 @@ public class PlayerStats : MonoBehaviour
     public int lvlHealth = 10; // Бонус к здоровью за каждое очко уровня
     public int lvlMana = 5; // Бонус к мане за каждое очко уровня
     public int lvlStamina = 2; // Бонус к выносливости за каждое очко уровня
+    [Space]
+    [SerializeField] private float _staminaWaitModificator;
+    [SerializeField] private float _staminaRegenModificator;
+
+    public static float staminaWait = 1;
+    public static float healthWait = 1;
+    public static float manaWait = 1;
 
 
     private void Awake()
@@ -89,6 +96,13 @@ public class PlayerStats : MonoBehaviour
     private void FixedUpdate()
     {
         Manager();
+    }
+
+    private void Update()
+    {
+        HealthRegen();
+        ManaRegen();
+        StaminaRegen();
     }
 
     private void Manager()
@@ -171,40 +185,62 @@ public class PlayerStats : MonoBehaviour
         }
     }
 
-    public void PlayerStaminaDamage(int damage)
+    public static bool PlayerStaminaDamage(float damage, float parameter = 0, float modificator = 0)
     {
-        PlayerStamina -= damage;
+        damage -= modificator * parameter;
+        if (damage <= 1) damage = 1f;
 
-        if (PlayerStamina <= 0)
+        if (PlayerStamina >= damage)
         {
-            PlayerStamina = 0;
+            staminaWait = 0;
+            PlayerStamina -= damage;
+            return true;
         }
+        else return false;
     }
 
     private void HealthRegen()
     {
-
+        if (Constitution >= requireHealthRegen)
+        {
+            if (healthWait < 1)
+            {
+                healthWait += timeHealthRegen * (1 + Constitution - requireHealthRegen) * Time.deltaTime;
+            }
+            else if (PlayerHealth < PlayerMaxHealth)
+            {
+                PlayerHealth += 1;
+                healthWait = 0;
+            }
+        }
     }
     private void ManaRegen()
     {
-
+        if (Intelligence >= requireManaRegen)
+        {
+            if (manaWait < 1)
+            {
+                manaWait += timeManaRegen * (1 + Intelligence - requireManaRegen) * Time.deltaTime;
+            }
+            else if (PlayerMana < PlayerMaxMana)
+            {
+                PlayerMana += 1;
+                manaWait = 0;
+            }
+        }
     }
     private void StaminaRegen()
     {
-
-    }
-    
-
-    public static bool StaminaLose(float loseCount, float modificator, int parametr)
-    {
-        loseCount -= modificator * parametr;
-        if (loseCount <= 0) loseCount = 1f;
-
-        if (PlayerStamina >= loseCount)
+        if (staminaWait < 1)
         {
-            PlayerStamina -= loseCount;
-            return true;
+            staminaWait += _staminaWaitModificator * Time.deltaTime;
         }
-        else return false;
+        else
+        {
+            if (PlayerStamina < PlayerMaxStamina)
+            {
+                PlayerStamina += Time.deltaTime * (PlayerMaxStamina * _staminaRegenModificator);
+            }
+        }
     }
 }

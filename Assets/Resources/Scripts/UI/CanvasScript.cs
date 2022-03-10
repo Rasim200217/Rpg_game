@@ -53,9 +53,6 @@ public class CanvasScript : MonoBehaviour
         DataBars();
         /*SizeBars();*/
 
-        if (Input.GetKey(KeyCode.Alpha1)) PlayerStats.stats.PlayerDamage(1);
-        if (Input.GetKey(KeyCode.Alpha2)) PlayerStats.stats.PlayerManaDamage(1);
-        if (Input.GetKey(KeyCode.Alpha3)) PlayerStats.stats.PlayerStaminaDamage(1);
     }
 
     private void DataBars()

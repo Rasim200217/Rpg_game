@@ -95,8 +95,8 @@ public class Controller : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0) && Inventory.inventory.equipment[0])
         {
-            if (PlayerStats.StaminaLose(Inventory.inventory.equipment[0].weight, PlayerStats.stats.strWeight,
-                PlayerStats.Strenght))
+            if (PlayerStats.PlayerStaminaDamage(Inventory.inventory.equipment[0].weight, PlayerStats.Strenght,
+                PlayerStats.stats.strWeight))
             {
                 mySwordRender.sprite = Inventory.inventory.equipment[0].sprite;
                 mySwordRender.size = new Vector2(0.4f, Inventory.inventory.equipment[0].lenght);
@@ -123,7 +123,7 @@ public class Controller : MonoBehaviour
         Vector2 direction = (Vector2)_cursor - bowPos;
         distantWeapon.transform.right = direction;
 
-        //остановка регена стамины
+        PlayerStats.staminaWait = 0;
 
         _bowReady += Inventory.inventory.equipment[1].speed * 0.5f * Time.deltaTime; // +буст от ловкости (0.2f)
 
@@ -163,13 +163,15 @@ public class Controller : MonoBehaviour
         {
             if(Input.GetMouseButtonDown(0))
             {
-                // потеря стамины
-
+                if (PlayerStats.PlayerStaminaDamage(Inventory.inventory.equipment[1].weight, PlayerStats.Strenght,
+                PlayerStats.stats.strWeight))
+                {
                 _bowIsCharched = false;
                 _arrowIsReady = false;
                 _bowReady = 0f;
                 Inventory.inventory.UseArrow();
                 Instantiate(Inventory.inventory.equipment[1].myArrow, arrowPoint.position, arrowPoint.rotation);
+                }
             }
         }
     }
@@ -198,12 +200,16 @@ public class Controller : MonoBehaviour
 
     private void Dash()
     {
-        if(Input.GetKeyDown(KeyCode.Space) && !_playerIsStand && !isDashed)
+        if (Input.GetKeyDown(KeyCode.Space) && !_playerIsStand && !isDashed)
         {
-            isDashed = true;
-            _dashTime = dashCountDown;
-            _rigidbody2D.AddForce(new Vector2(xPlus * dashForse, yPlus * dashForse), ForceMode2D.Impulse);
-        }
+            if (PlayerStats.PlayerStaminaDamage(dashStaminaLose, PlayerStats.Agility,
+                PlayerStats.stats.aglDash))
+            {
+                isDashed = true;
+                _dashTime = dashCountDown;
+                _rigidbody2D.AddForce(new Vector2(xPlus * dashForse, yPlus * dashForse), ForceMode2D.Impulse);
+            }
+         }
 
         if (_dashTime > 0) _dashTime -= Time.deltaTime;
         else if(isDashed)
